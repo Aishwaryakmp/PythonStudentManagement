@@ -1,10 +1,10 @@
 from sqlite3 import Cursor
 import mysql.connector
-#establishing the connection
+ #establishing the connection
 conn = mysql.connector.connect(
-   user='root', password='password', host='127.0.0.1', database='demo'
-)
-#Creating a cursor object using the cursor() method
+    user='root', password='password', host='127.0.0.1', database='demo'
+ )
+ #Creating a cursor object using the cursor() method
 cursor = conn.cursor()
 def get_department():  
        print('\nDepartment names:');
@@ -29,75 +29,78 @@ def get_college_info():
        college = input();
        return college
 def get_collegeDept_info():
-    cursor.execute("""
-                     SELECT c.college_name, cd.id  from college_department cd 
+       cursor.execute("""
+                    SELECT c.college_name, cd.id  from college_department cd 
        join college c on c.id = cd.college_id 
        where cd.dept_id = %s and cd.college_id = %s;
               """, [dept, college]);
-    data = cursor.fetchone()
-    collegeDeptId = data[1];
-    #inserting values into table
-    insert_data= (
-    "INSERT INTO student(first_name, last_name, dept_id)"
-    "VALUES (%s, %s, %s)"
-    )
-    print("Enter the first_name : ");
-    a =  input();
-    print("Enter the last_name : ");
-    b = input();
-    cursor.execute(insert_data, [a,b,collegeDeptId])
-    return ( insert_data)       
+       data = cursor.fetchone()
+       collegeDeptId = data[1];
+       return collegeDeptId
+def create_student(college_dept_id):
+     #inserting values into table
+       insert_data= (
+       "INSERT INTO student(first_name, last_name, dept_id)"
+       "VALUES (%s, %s, %s)"
+      )
+       print("Enter the first_name : ");
+       a =  input();
+       print("Enter the last_name : ");
+       b = input();
+       cursor.execute(insert_data, [a,b,college_dept_id])
+       return ( insert_data)       
 def get_student_info():
-    print('\nstudent names with id :');
-    cursor.execute('''
-SELECT s.id ,s.first_name ,c.id, c.college_name, d.id ,d.name  from student s 
-join college_department cd on cd.id = s.dept_id 
-join college c on c.id = cd.college_id 
-join department d on d.id =cd.dept_id ''');
-    data = cursor.fetchall()
-    for column in data:
-            print(column);
-    print("enter the student id: ");
-    dept = input();
-    return dept       
+     print('\nstudent names with id :');
+     cursor.execute('''
+ SELECT s.id ,s.first_name ,c.id, c.college_name, d.id ,d.name  from student s 
+ join college_department cd on cd.id = s.dept_id 
+ join college c on c.id = cd.college_id 
+ join department d on d.id =cd.dept_id ''');
+     data = cursor.fetchall()
+     for column in data:
+             print(column);
+     print("enter the student id: ");
+     dept = input();
+     return dept       
 def college():
-    cursor.execute('''
-SELECT * from college''');
-    data = cursor.fetchall()
-    for column in data:
-        print(column);       
-    print("enter the college id to be changed: ")
-    val_1 = int(input()); 
-    return val_1       
+     cursor.execute('''
+ SELECT * from college''');
+     data = cursor.fetchall()
+     for column in data:
+         print(column);       
+     print("enter the college id to be changed: ")
+     val_1 = int(input()); 
+     return val_1       
 def delete_data():
-       print("deleting a student id")
-       cursor.execute('''
-       select s.id, s.first_name  from student s order by id asc;''');
-       data = cursor.fetchall()
-       for column in data:
-              print(column);  
-       print("enter the student id to be deleted: ")  
-       choices = int(input());
-       delete_data =  "DELETE FROM student WHERE id = %s "
-       cursor.execute(delete_data, [choices])
-       return(delete_data);
+        print("deleting a student id")
+        cursor.execute('''
+        select s.id, s.first_name  from student s order by id asc;''');
+        data = cursor.fetchall()
+        for column in data:
+               print(column);  
+        print("enter the student id to be deleted: ")  
+        choices = int(input());
+        delete_data =  "DELETE FROM student WHERE id = %s "
+        cursor.execute(delete_data, [choices])
+        return(delete_data);
 print("Please select from given option :");
 print("a. insert new student details.");
 print("b. updating the student name/college_name.");
 print("c. Delete the student id ")
 choice = input("Enter your choice (a/b/c): ");
-#for inserting
+ #for inserting
 if choice == "a":
-       #get dept input
-        dept = get_department();
-       # get college input
-        college = get_college_info();   
-       # get collgeDeptId
-        get_collegeDept_info();
-        print("Data inserted")
-        conn.commit()
-        print(cursor.rowcount, "was inserted.") 
-#for updating
+        #get dept input
+       dept = get_department();
+        # get college input
+       college = get_college_info();   
+        # get collgeDeptId
+       college_dept_id = get_collegeDept_info();
+       create_student(college_dept_id=college_dept_id)
+       print("Data inserted")
+       conn.commit()
+       print(cursor.rowcount, "was inserted.") 
+ #for updating
 elif choice == "b":
        #get std id as input
        get_student_info();
@@ -134,11 +137,11 @@ elif choice == "b":
 SELECT * from college''');
               data = cursor.fetchall()
               for column in data:
-                print(column);       
+                     print(column);       
               print("enter the college id to be changed: ")
               val_1 = int(input());       
               cursor.execute('''
-SELECT * from department''');
+ SELECT * from department''');
               data = cursor.fetchall()
               for column in data:
                      print(column);  
@@ -146,8 +149,8 @@ SELECT * from department''');
               val_2 = int(input());
               cursor.execute("""
                      SELECT c.college_name, cd.id  from college_department cd 
-       join college c on c.id = cd.college_id 
-       where cd.dept_id = %s and cd.college_id = %s;
+        join college c on c.id = cd.college_id 
+        where cd.dept_id = %s and cd.college_id = %s;
               """, [val_1, val_2]);
               data = cursor.fetchone()
               collegeDeptId = data[1];
@@ -157,10 +160,10 @@ SELECT * from department''');
               "VALUES (%s)")
               cursor.execute(insert_data, [collegeDeptId])
               print("Data updated")   
-#For deleting 
+ #For deleting 
 elif choice == "c":
     delete_data();
     print("Data deleted") 
     conn.commit()                   
-# #Closing the connection
-# conn.close()
+ # #Closing the connection
+ # conn.close()
