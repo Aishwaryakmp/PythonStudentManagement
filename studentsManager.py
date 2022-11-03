@@ -21,18 +21,24 @@ def post():
 def get():
     return students , 200
 
-# @app.route("/students",methods= ["PUT"])
+# @app.route("/std",methods= ["PUT"])
 # def put():
-    
+#     insertData = request.get_json()
+#     print(insertData)
+#     return students, 201 
 
+@app.route("/std", methods=['PUT'])
+def put():
+    request.method == 'PUT'
+    return "PUT\n"
 
-
-# @app.route('/students', methods = ["GET"])
-# def get():
-#     return "",200
+@app.route('/students', methods = ["DELETE"])
+def DEL():
+    deleteData = request.get_json()
+    print(deleteData)
+    return "",200
 
 # @app.route('/students', methods = ["PUT"])
 # def put():
-
 if __name__=='__main__':
     app.run()
