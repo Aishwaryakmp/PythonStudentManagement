@@ -20,6 +20,12 @@ def post():
 @app.route("/students",methods = ["GET"])
 def get():
     return students , 200
+ 
+ @app.route("/students",methods= ["PUT"])
+def put():
+    insertData = request.get_json()
+    print(insertData)
+    return "", 200  
 
 # @app.route("/students",methods= ["PUT"])
 # def put():
@@ -36,3 +42,4 @@ def get():
 
 if __name__=='__main__':
     app.run()
+  
