@@ -1,1 +1,1 @@
-# PythonStudentManagementCLI
+# PythonStudentManagement
