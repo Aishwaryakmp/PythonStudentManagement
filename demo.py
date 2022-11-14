@@ -3,7 +3,7 @@ from flask import Flask, request, render_template
 import uuid
  
 # Flask constructor
-app = Flask(__name__)  
+app = Flask(__name__)
  
 students = []
 # A decorator used to tell the application
