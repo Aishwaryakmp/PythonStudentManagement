@@ -5,7 +5,7 @@ import uuid
 # Flask constructor
 app = Flask(__name__)
  
-students = [] 
+students = []
 # A decorator used to tell the application
 # which URL is associated function
 @app.route('/students', methods =["POST"])
