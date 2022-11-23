@@ -74,15 +74,15 @@ def get(studentId):
 @app.route("/students/<studentId>", methods=["PUT"])
 def put(studentId):
     
-	args = studentId
-#  queryParams = request.args.get("test")
-	data = request.get_json()  # getting json data from postman
-	# for loop for checking if the id given and comparing ids are same
-	for i in range(0, len(students)):
-		if studentId == str(students[i]["id"]):
-			students[i]['name'] = data['name']
-	return "", 200
-
+    data = request.get_json()
+    name = data["name"]
+    
+    cur = mysql.connection.cursor()
+    cur.execute("update student set first_name = \"{0}\" WHERE id = {1}".format(name,studentId))
+    mysql.connection.commit()
+    cur.close()
+    return "", 200
+	
 # @app.route("/students/<studentId>", methods=["DELETE"]) # normal way to delete a data when not connected to db
 # def delete(studentId):
 # 	args = studentId
